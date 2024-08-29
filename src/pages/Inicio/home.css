@@ -1,0 +1,11 @@
+@media (max-width: 768px) {
+    .ant-table-content {
+      overflow-x: auto;
+    }
+    .ant-card-head-title {
+      font-size: 18px;
+    }
+    .ant-form-item {
+      margin-bottom: 16px;
+    }
+  }
