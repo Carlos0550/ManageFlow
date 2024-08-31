@@ -1,47 +1,30 @@
-import React, { useEffect } from 'react';
-import { Route, Routes, Navigate, useNavigate,useLocation } from 'react-router-dom';
+import React from 'react';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import { useAppContext } from './context';
 import Home from './pages/Inicio/Home';
 import Login from './pages/Login/Login';
-import ShowClientInfo from './pages/ClientsInfo/ShowClientInfo';
+import ShowClientInfo from './pages/Administracion de clientes/ClientsInfo/ShowClientInfo';
+import HistoryClient from './pages/Administracion de clientes/HistorialEntregas/HistoryClient';
+import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
-  const { retrieveAdmin, isAuthenticated } = useAppContext();
-  const navigate = useNavigate();
-  const location = useLocation(); // Obtiene la ubicación actual
+  const { isAuthenticated, retrieveAdmin } = useAppContext();
 
-  useEffect(() => {
+  React.useEffect(() => {
     (async () => {
       await retrieveAdmin();
-      const currentPath = location.pathname;
-      
-      // Si la ruta es /show-client-info/:userId, no redirigimos
-      if (currentPath.startsWith('/show-client-info')) {
-        return;
-      }
-
-      // Redirige a la página de inicio de sesión si el usuario no está autenticado
-      if (isAuthenticated === false) {
-        navigate('/', { replace: true });
-      } else if (isAuthenticated === true) {
-        // Redirige a /home/dashboard si está autenticado y está en la ruta raíz
-        if (currentPath === '/') {
-          navigate('/home/dashboard', { replace: true });
-        }
-      }
     })();
-  }, [isAuthenticated, navigate, location]);
-
+  }, [retrieveAdmin]);
 
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path='/show-client-info/:userId' element={<ShowClientInfo/>}/>
-      {isAuthenticated ? (
-        <Route path="/home/*" element={<Home />} />
-      ) : (
-        <Route path="*" element={<Navigate to="/" />} />
-      )}
+
+      <Route path="/show-client-info/:userId" element={<ShowClientInfo />} />
+      <Route path="/show-historic-clients" element={<HistoryClient />} />
+
+      <Route path="/home/*" element={isAuthenticated ? <Home /> : <Navigate to="/" />} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }
