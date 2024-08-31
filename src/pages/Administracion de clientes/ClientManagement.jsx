@@ -44,7 +44,7 @@ function ClientManagement() {
 
     try {
       setIsUpdating(true)
-      const response = await axios.put("http://localhost:4000/toggleLinkClient", { toggleValues })
+      const response = await axios.put("https://manage-flow-server.vercel.app/toggleLinkClient", { toggleValues })
       if (response.status !== 200) {
         message.error(`${response.data.message}`, 4)
       } else {

@@ -109,7 +109,7 @@ export const AppContextProvider = ({ children }) => {
     const createClient = async (values = []) => {
         const parsedValues = JSON.stringify(values)
         try {
-            const response = await axios.post("http://localhost:4000/create-client", {parsedValues, valorCuota})
+            const response = await axios.post("https://manage-flow-server.vercel.app/create-client", {parsedValues, valorCuota})
             if (response.status === 200) {
                 message.success("Cliente guardado")
                 await getClients()
@@ -133,7 +133,7 @@ export const AppContextProvider = ({ children }) => {
     const getClients = async () =>{
         const hiddenMessage = message.loading("Aguarde...",0)
         try {
-            const response = await axios.get("http://localhost:4000/get-clients")
+            const response = await axios.get("https://manage-flow-server.vercel.app/get-clients")
             if (response.status === 200) {
                 setClients(response.data)
                 hiddenMessage()
@@ -154,7 +154,7 @@ export const AppContextProvider = ({ children }) => {
     const updateDataClient = async(values) =>{
         const hiddenMessage = message.loading("Aguarde...",0)
         try {
-            const response = await axios.put("http://localhost:4000/update-data-client", {values})
+            const response = await axios.put("https://manage-flow-server.vercel.app/update-data-client", {values})
             if (response.status === 200) {
                await getClients()
             }else{
@@ -174,7 +174,7 @@ export const AppContextProvider = ({ children }) => {
     const deleteClient = async(clientID) =>{
         const hiddenMessage = message.loading("Aguarde...",0)
         try {
-            const response = await axios.delete(`http://localhost:4000/delete-client?id_cliente=${clientID}`)
+            const response = await axios.delete(`https://manage-flow-server.vercel.app/delete-client?id_cliente=${clientID}`)
             if (response.status === 200) {
                 hiddenMessage()
                 message.success("Cliente eliminado!")
@@ -196,7 +196,7 @@ export const AppContextProvider = ({ children }) => {
     const makeDeliver = async(clientID, value, entrega_id) =>{
         const hiddenMessage = message.loading("Aguarde...",0)
         try {
-            const response = await axios.post("http://localhost:4000/make-deliver", {clientID, value, entrega_id})
+            const response = await axios.post("https://manage-flow-server.vercel.app/make-deliver", {clientID, value, entrega_id})
             if (response.status === 200) {
                 await getClients()
                 message.success("Entrega guardada y membresía actualizada!")
