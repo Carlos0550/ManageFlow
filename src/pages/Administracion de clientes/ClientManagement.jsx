@@ -71,7 +71,7 @@ function ClientManagement() {
   };
   const [values, setValues] = useState({
     nombre_completo: "",
-    teléfono: "",
+    telefono: "",
     email: "",
   });
   const [errors, setErrors] = useState({
