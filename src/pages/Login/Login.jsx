@@ -3,8 +3,17 @@ import "./login.css"
 import { message, Spin } from 'antd'
 import { useAppContext } from '../../context'
 import { useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 function Login() {
-  const {logAdmin,retrieveAdmin} = useAppContext()
+  const {logAdmin,retrieveAdmin, isAuthenticated} = useAppContext()
+  const location = useLocation();
+  const navigate = useNavigate()
+  useEffect(() => {
+    // Redirige a /home/dashboard si está autenticado y está en la ruta raíz
+    if (isAuthenticated) {
+      navigate("/home/dashboard")
+    }
+  }, [isAuthenticated]);
   const [values, setValues] = useState({
     email: "",
     password: ""
@@ -54,7 +63,7 @@ function Login() {
     }
   }
 
-  const location = useLocation();
+
   const alreadyVerify = useRef(false)
 
   useEffect(()=>{
