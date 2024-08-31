@@ -13,6 +13,7 @@ import ClientManagement from '../Administracion de clientes/ClientManagement';
 import Dashboard from '../Dashboard/Dashboard';
 import Reports from '../Reportes/Reports';
 import Settings from '../Ajustes/Settings';
+import HistoryClient from '../Administracion de clientes/HistorialEntregas/HistoryClient';
 import { ProtectedRoute } from '../../components/ProtectedRoute';
 
 const { Header, Content } = Layout;
@@ -99,6 +100,7 @@ function Home() {
                     </ProtectedRoute>
                   }
                 />
+                
                 <Route path="*" element={<Navigate to="/home/dashboard" />} />
               </Routes>
             </div>
