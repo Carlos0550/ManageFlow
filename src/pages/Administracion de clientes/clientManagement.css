@@ -62,15 +62,19 @@
 
 .card__create-client{
     width: 45%;
+    height: 70vh;
+
 }
 
 .card__show-clients{
     width: 100%;
     max-width: 100%;
+    max-height: 70vh;
     overflow-x: auto;
+    overflow-y: auto;
 }
 
-@media(max-width:900px) {
+@media(max-width:950px) {
     .customer__manager-flex {
         flex-direction: column;
         gap: 1rem
@@ -82,4 +86,16 @@
     .card__show-clients{
         width: 100%;
     }
+}
+
+.action__btns-wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 40%;
+    gap: .5rem;
+    justify-content: flex-start;
+}
+
+.action__btns-wrapper > Button{
+    flex:1 1 auto;
 }
