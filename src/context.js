@@ -17,6 +17,42 @@ export const AppContextProvider = ({ children }) => {
     const navigate = useNavigate()
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [clients, setClients] = useState([])
+    const [valorCuota, setValorCuota] = useState(6800)
+
+    const alreadyFetch = useRef(false)
+    useEffect(() => {
+        if (alreadyFetch.current) return;
+    
+        const fetchAjustes = async () => {
+          const { data, error } = await supabase
+            .from('ajustes')
+            .select('precio_cuota')
+            .single(); 
+    
+          if (!error && data) {
+            console.log(data);
+            setValorCuota(data);
+            alreadyFetch.current = true; 
+          } else {
+            console.error(error); 
+            alreadyFetch.current = false;
+            setTimeout(() => {
+                if (alreadyFetch.current === false && error) {
+                    fetchAjustes()
+                }
+            }, 10000);
+          }
+        };
+    
+        fetchAjustes();
+      }, []);
+
+    const handleChangeCuota = async(newValue)=>{
+        if (!isNaN(parseInt(newValue)) && newValue > 0) {
+            setValorCuota(newValue)
+        }
+    }
+
     const alreadyVerify = useRef(false)
     const logAdmin = async (values) => {
         try {
@@ -73,7 +109,7 @@ export const AppContextProvider = ({ children }) => {
     const createClient = async (values = []) => {
         const parsedValues = JSON.stringify(values)
         try {
-            const response = await axios.post("http://localhost:4000/create-client", {parsedValues})
+            const response = await axios.post("http://localhost:4000/create-client", {parsedValues, valorCuota})
             if (response.status === 200) {
                 message.success("Cliente guardado")
                 await getClients()
@@ -114,12 +150,77 @@ export const AppContextProvider = ({ children }) => {
             hiddenMessage()
         }
     }
+
+    const updateDataClient = async(values) =>{
+        const hiddenMessage = message.loading("Aguarde...",0)
+        try {
+            const response = await axios.put("http://localhost:4000/update-data-client", {values})
+            if (response.status === 200) {
+               await getClients()
+            }else{
+                message.error(`${response.data.message}`)
+            }
+        } catch (error) {
+            if (error.response) {
+                message.error(`${error.response.data.message}`)
+            }else{
+                message.error("Error de conexión, verifique su red e intentelo nuevamente",3)
+            }
+        }finally{
+            hiddenMessage()
+        }
+    }
+
+    const deleteClient = async(clientID) =>{
+        const hiddenMessage = message.loading("Aguarde...",0)
+        try {
+            const response = await axios.delete(`http://localhost:4000/delete-client?id_cliente=${clientID}`)
+            if (response.status === 200) {
+                hiddenMessage()
+                message.success("Cliente eliminado!")
+                await getClients()
+            }else{
+                message.error(`${response.data.message}`)
+            }
+        } catch (error) {
+            if (error.response) {
+                message.error(`${error.response.data.message}`)
+            }else{
+                message.error("Error de conexión, verifique su red e intentelo nuevamente",3)
+            }
+        }finally{
+            hiddenMessage()
+        }
+    } 
+
+    const makeDeliver = async(clientID, value, entrega_id) =>{
+        const hiddenMessage = message.loading("Aguarde...",0)
+        try {
+            const response = await axios.post("http://localhost:4000/make-deliver", {clientID, value, entrega_id})
+            if (response.status === 200) {
+                await getClients()
+                message.success("Entrega guardada y membresía actualizada!")
+            }else{
+                message.error(`${response.data.message}`)
+            }
+        } catch (error) {
+            if (error.response) {
+                message.error(`${error.response.data.message}`)
+            }else{
+                message.error("Error de conexión, verifique su red e intentelo nuevamente",3)
+            }
+        }finally{
+            hiddenMessage()
+        }
+    }
     
 
 
     return (
         <AppContext.Provider value={{
-            createClient,getClients,clients,
+            valorCuota,
+            createClient,getClients,clients,updateDataClient,deleteClient,
+            makeDeliver, valorCuota,
             logAdmin, retrieveAdmin, isAuthenticated
         }}>
 
