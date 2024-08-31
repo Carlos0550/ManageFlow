@@ -30,7 +30,6 @@ export const AppContextProvider = ({ children }) => {
             .single(); 
     
           if (!error && data) {
-            console.log(data);
             setValorCuota(data);
             alreadyFetch.current = true; 
           } else {
@@ -101,9 +100,9 @@ export const AppContextProvider = ({ children }) => {
         }
       };
 
-      useEffect(()=>{
-        console.log("Estado de autenticacion: ", isAuthenticated)
-      },[isAuthenticated])
+    //   useEffect(()=>{
+    //     console.log("Estado de autenticacion: ", isAuthenticated)
+    //   },[isAuthenticated])
 
 
     const createClient = async (values = []) => {
@@ -153,9 +152,13 @@ export const AppContextProvider = ({ children }) => {
 
     const updateDataClient = async(values) =>{
         const hiddenMessage = message.loading("Aguarde...",0)
+        console.log(values)
         try {
-            const response = await axios.put("https://manage-flow-server.vercel.app/update-data-client", {values})
+            // const response = await axios.put("https://manage-flow-server.vercel.app/update-data-client", {values})
+            const response = await axios.put("http://localhost:4000/update-data-client", {values})
+
             if (response.status === 200) {
+                message.success("Datos actualizados")
                await getClients()
             }else{
                 message.error(`${response.data.message}`)

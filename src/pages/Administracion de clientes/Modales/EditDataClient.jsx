@@ -54,7 +54,7 @@ function EditDataClient({ closeModal,selectedClient }) {
             setInsertingClient(true);
             const newValues = {
                 values,
-                userID: selectedClient.user_id
+                userID: selectedClient.id_cliente
             }
             await updateDataClient(newValues);
             setInsertingClient(false);
