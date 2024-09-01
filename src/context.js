@@ -107,6 +107,7 @@ export const AppContextProvider = ({ children }) => {
 
     const createClient = async (values = []) => {
         const parsedValues = JSON.stringify(values)
+        console.log(parsedValues)
         try {
             const response = await axios.post("https://manage-flow-server.vercel.app/create-client", {parsedValues, valorCuota})
             if (response.status === 200) {
