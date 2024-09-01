@@ -48,7 +48,7 @@ export const AppContextProvider = ({ children }) => {
 
       const fetchDashboardData = async () =>{
         try {
-            const response = await axios.get("http://localhost:4000/fetch-dashboard-data")
+            const response = await axios.get("https://manage-flow-server.vercel.app/fetch-dashboard-data")
             if (response.data) {
                 setDashboardData(response.data)
             }else{
