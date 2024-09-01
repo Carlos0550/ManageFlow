@@ -62,7 +62,7 @@ function Home() {
             onClick={() => setMenuVisible(true)}
             style={{ fontSize: '16px', width: 64, height: 64 }}
           />
-          <h1 style={{ margin: 0, padding: '0 16px' }}>Panel de Administración</h1>
+          <h2 style={{ margin: 0, padding: '0 16px' }}>Panel de Administración</h2>
         </Header>
         <Layout>
           <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
