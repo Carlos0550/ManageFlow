@@ -65,7 +65,7 @@ function Home() {
           <h2 style={{ margin: 0, padding: '0 16px' }}>Panel de Administración</h2>
         </Header>
         <Layout>
-          <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+          <Content style={{overflow: 'initial' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: "100vh" }}>
               <Routes>
                 <Route
