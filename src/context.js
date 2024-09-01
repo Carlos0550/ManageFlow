@@ -18,7 +18,7 @@ export const AppContextProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [clients, setClients] = useState([])
     const [valorCuota, setValorCuota] = useState(6800)
-
+    const [dashboardData, setDashboardData] = useState([])
     const alreadyFetch = useRef(false)
     useEffect(() => {
         if (alreadyFetch.current) return;
@@ -45,6 +45,23 @@ export const AppContextProvider = ({ children }) => {
     
         fetchAjustes();
       }, []);
+
+      const fetchDashboardData = async () =>{
+        try {
+            const response = await axios.get("http://localhost:4000/fetch-dashboard-data")
+            if (response.data) {
+                setDashboardData(response.data)
+            }else{
+                return message.error(`${response.data.message}`)
+            }
+        } catch (error) {
+            if (error.response) {
+                return message.error(`${error.response.data.message}`)
+            }else{
+               return message.error("Error de conexión, verifique su red e intente nuevamente")
+            }
+        }
+      }
 
     const handleChangeCuota = async(newValue)=>{
         if (!isNaN(parseInt(newValue)) && newValue > 0) {
@@ -227,7 +244,8 @@ export const AppContextProvider = ({ children }) => {
             valorCuota,
             createClient,getClients,clients,updateDataClient,deleteClient,
             makeDeliver, valorCuota,
-            logAdmin, retrieveAdmin, isAuthenticated
+            logAdmin, retrieveAdmin, isAuthenticated,
+            fetchDashboardData, dashboardData
         }}>
 
             {children}
