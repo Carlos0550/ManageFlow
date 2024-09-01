@@ -13,7 +13,6 @@ const { Title } = Typography;
 
 function ClientManagement() {
   const { createClient, getClients, clients = [], deleteClient } = useAppContext(); // Asigna un valor por defecto de [] a clients
-  console.log(clients)
   const [insertingClient, setInsertingClient] = useState(false);
   const [isLoading, setIsLoading] = useState(false)
   const [searchText, setSearchText] = useState('')
