@@ -7,6 +7,7 @@ function MakeDeliver({closeModal, clientID, deliversCLient, entrega_id}) {
     const [isValid, setIsValid] = useState(true)
     const {valorCuota, makeDeliver} = useAppContext()
     const [value, setValue] = useState(valorCuota.precio_cuota || 0)
+   
     let initDate = new Date().toISOString().split("T")[0]; 
 
 
@@ -19,17 +20,22 @@ function MakeDeliver({closeModal, clientID, deliversCLient, entrega_id}) {
             setIsValid(false)
         }
     }
-
     const handleConfirm = async() =>{
         if (!isValid) {
             return message.error("El valor de la entrega debe ser mayor a 0")
         }else{
-            const entrega = {
-                ...deliversCLient,
+            let entregas = []
+            if (!Array.isArray(deliversCLient)) {
+                entregas = [deliversCLient]
+            }else{
+                entregas = [...deliversCLient]
+            }
+            entregas.push({
                 entrega: value,
                 fecha_entrega: initDate
-            }
-            await makeDeliver(clientID, entrega, entrega_id)
+            })
+            
+            await makeDeliver(clientID, JSON.stringify(entregas), entrega_id)
             closeModal()
         }
     }
