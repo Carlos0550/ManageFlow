@@ -18,7 +18,7 @@ function ShowClientInfo() {
     const fetchClientInfo = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`http://localhost:4000/show-client-info/?user_id=${userId}`);
+            const response = await axios.get(`https://manage-flow-server.vercel.app/show-client-info/?user_id=${userId}`);
             console.log(response);
             if (response.status === 200) {
                 setClientInfo(response.data);
