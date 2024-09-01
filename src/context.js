@@ -110,6 +110,8 @@ export const AppContextProvider = ({ children }) => {
         console.log(parsedValues)
         try {
             const response = await axios.post("https://manage-flow-server.vercel.app/create-client", {parsedValues, valorCuota})
+            // const response = await axios.post("http://localhost:4000/create-client", {parsedValues, valorCuota})
+
             if (response.status === 200) {
                 message.success("Cliente guardado")
                 await getClients()
