@@ -211,7 +211,7 @@ function ClientManagement() {
             >
               <Button danger><DeleteOutlined /></Button>
             </Popconfirm>
-            <Button onClick={()=> handleMakeDeliver(record.id_cliente, record.detalle_entregas, record.entrega_id_cliente)}>Entregar<MoneyOutlined /></Button>
+            <Button onClick={()=> handleMakeDeliver(record.id_cliente, record.detalle_entregas, record.entrega_id_cliente)} disabled={record.estado !== "activa"}>Entregar<MoneyOutlined /></Button>
             <Button>Ver históricos</Button>
           </div>
         </>
